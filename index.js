@@ -37,6 +37,8 @@ let persons = [
 app.use(express.json())
 app.use(morgan('tiny'))
 app.use(cors())
+app.use(express.static('build'))
+
 
 app.get('/', function (req, res, next) {
     res.send(persons)
@@ -114,9 +116,6 @@ app.post('/api/persons', (request, response) => {
     response.json(person)
 })
 
-const requestLogger = (request, response, next) => {
-
-}
 
 const PORT = process.env.PORT || 3001
 app.listen(PORT, () => {
