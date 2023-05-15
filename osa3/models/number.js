@@ -8,25 +8,25 @@ const url = process.env.MONGODB_URI
 console.log('connecting to', url)
 
 mongoose.connect(url)
-  .then(result => {
-    console.log('connected to MongoDB')
-  })
-  .catch((error) => {
-    console.log('error connecting to MongoDB:', error.message)
-  })
+    .then(() => {
+        console.log('connected to MongoDB')
+    })
+    .catch((error) => {
+        console.log('error connecting to MongoDB:', error.message)
+    })
 
 const phoneSchema = new mongoose.Schema({
     name: {
-      type: String,
-      minlenght: 3,
-      required: true
+        type: String,
+        minlength: 3,
+        required: true
     },
     number:{
-      type: String,
-      minlenght: 8,
-      required: true
+        type: String,
+        minlength: 8,
+        required: true
     }
-  })
+})
 
 phoneSchema.set('toJSON', {
     transform: (document, returnedObject) => {
