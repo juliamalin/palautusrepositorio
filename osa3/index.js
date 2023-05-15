@@ -93,7 +93,7 @@ app.put('/api/numbers/:id',(request, response, next)=> {
 
     Number.findByIdAndUpdate(
         request.params.id, 
-        {number}, 
+        {name, number}, 
         {new: true, runValidators: true, context:'query'}
         )
     .then(updatedNumber => {
