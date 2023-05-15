@@ -21,8 +21,10 @@ const errorHandler = (error, request, response, next) => {
     console.error(error.message)
     if (error.name === 'CastError') {
       return response.status(400).send({ error: 'malformatted id' })
+    } else if (error.name === 'ValidationError') {
+        return response.status(400).json({error: error.message})
     }
-  
+
     next(error)
 }
 
@@ -52,7 +54,7 @@ app.get('/api/numbers', (req, res) => {
     })
   })
 
-  app.post('/api/numbers', (request, response) => {
+  app.post('/api/numbers', (request, response, next) => {
     const body = request.body
     console.log('request body:', request.body)
 
@@ -78,16 +80,22 @@ app.get('/api/numbers', (req, res) => {
     number.save().then(savedNumber => {
         response.json(savedNumber)
     })
+    .catch(error => next(error))
 })
 
 app.put('/api/numbers/:id',(request, response, next)=> {
-    const body = request.body
+    const {name, number} = request.body
 
-    const number = {
+    /*const number = {
         name: body.name,
         number: body.number,
-    }
-    Number.findByIdAndUpdate(request.params.id, number, {new: true})
+    }*/
+
+    Number.findByIdAndUpdate(
+        request.params.id, 
+        {number}, 
+        {new: true, runValidators: true, context:'query'}
+        )
     .then(updatedNumber => {
         response.json(updatedNumber)
     })
