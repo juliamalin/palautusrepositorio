@@ -1,5 +1,10 @@
-POST http://localhost:3003/api/blogs Content-Type: application/json
+POST http://localhost:3003/api/blogs
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImthcmkiLCJpZCI6IjY0ODk4M2MyMmE1MDVlYWQ5YmEzMjhjNSIsImlhdCI6MTY4Njc0NzA2NX0.RjITcBvDeUZ7LN8Hx2WAgOXY5QeRIo_rGA0he8Kn3bM
 
 {
-"content": "Ensure that everything still works", "important": true
+    "title": "eeron blogi",
+    "author": "eero",
+    "url": "eero.malin@blogi.com",
+    "likes": 300
 }
