@@ -33,6 +33,7 @@ const CreateBlogForm = ({ createBlog, user }) => {
             type="text"
             value={newBlogTitle}
             onChange={(event) => setNewBlogTitle(event.target.value)}
+            id='title-input'
           />
         </div>
         <div>
@@ -41,6 +42,7 @@ const CreateBlogForm = ({ createBlog, user }) => {
             type="text"
             value={newBlogAuthor}
             onChange={(event) => setNewBlogAuthor(event.target.value)}
+            id='author-input'
           />
         </div>
         <div>
@@ -49,6 +51,7 @@ const CreateBlogForm = ({ createBlog, user }) => {
             type="text"
             value={newBlogUrl}
             onChange={(event) => setNewBlogUrl(event.target.value)}
+            id='url-input'
           />
         </div>
         <div>
@@ -57,6 +60,7 @@ const CreateBlogForm = ({ createBlog, user }) => {
             type="number"
             value={newBlogLikes}
             onChange={(event) => setNewBlogLikes(Number(event.target.value))}
+            id='likes-input'
           />
         </div>
         <button type="submit">Create Blog</button>
