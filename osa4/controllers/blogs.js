@@ -112,5 +112,4 @@ const blog = require('../models/blog')
     }
   })
 
-
 module.exports = blogsRouter

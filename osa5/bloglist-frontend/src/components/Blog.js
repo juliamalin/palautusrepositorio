@@ -19,18 +19,18 @@ const Blog = ({ blog, user, update, handleDeleteBlog }) => {
 
     <div>
       {blog.title}
-      <button onClick={toggleDetails}>
+      <button  id="view-button" onClick={toggleDetails}>
         {showDetails ? 'Hide' : 'View'}
       </button>
       {blog.user.username === user.username && (
-        <button onClick={deleteBlog}>Delete</button>
+        <button id="delete-button" onClick={deleteBlog}>Delete</button>
       )}
       {showDetails && (
         <div>
           <p>Author: {blog.author}</p>
           <p>URL: {blog.url}</p>
           <p>Likes: {blog.likes}</p>
-          <button onClick={() => handleLike()} className="like-button">Like</button>
+          <button  id="like-button" onClick={() => handleLike()} className="like-button">Like</button>
           <p>User: {blog.user.username}</p>
         </div>
       )}

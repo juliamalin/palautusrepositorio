@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
@@ -13,9 +13,9 @@ const App = () => {
   const [user, setUser] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
   const [okMessage, setOkMessage] = useState(null)
-  const [visible, setVisible] = useState(false)
 
-  console.log(user)
+  const blogFormRef = useRef()
+  const loginFormRef = useRef()
 
   const sortedBlogs = blogs.sort((a,b) => a.likes - b.likes)
 
@@ -74,16 +74,13 @@ const App = () => {
         setTimeout(() => {
           setOkMessage(null)
         }, 5000)
-        toggleVisibility()
+    blogFormRef.current.toggleVisibility()
       })
       .catch ((error) => {
         console.error('Failed to create blog:', error)
       })
   }
 
-  const toggleVisibility = () => {
-    setVisible(!visible)
-  }
 
   const updateLikes = (id) => {
     const blog = blogs.find(b => b.id === id)
@@ -120,9 +117,6 @@ const App = () => {
       })
   }
 
-
-
-
   return (
     <div>
       <h1>Blog app</h1>
@@ -130,8 +124,7 @@ const App = () => {
       {!user &&
         <Togglable
           buttonLabel="log in"
-          visible={setVisible}
-          toggleVisibility={toggleVisibility}
+          ref ={loginFormRef}
         >
           <LoginForm
             username={username}
@@ -146,9 +139,8 @@ const App = () => {
         <div>
           <p>{user.name} logged in</p>
           <Togglable
-            visible={visible}
-            toggleVisibility={toggleVisibility}
             buttonLabel="create new blog"
+            ref ={blogFormRef}
           >
             <CreateBlogForm createBlog={handleCreateBlog} user={user} />
           </Togglable>
@@ -164,7 +156,7 @@ const App = () => {
         </div>
 
       )}
-      <button onClick={handleLogout}>Logout</button>
+      <button id='logout-button' onClick={handleLogout}>Logout</button>
     </div>
   )
 }

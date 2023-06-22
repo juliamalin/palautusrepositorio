@@ -63,7 +63,7 @@ const CreateBlogForm = ({ createBlog, user }) => {
             id='likes-input'
           />
         </div>
-        <button type="submit">Create Blog</button>
+        <button id="create-button" type="submit">Create Blog</button>
       </form>
     </div>
   )
