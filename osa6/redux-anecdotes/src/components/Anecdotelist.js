@@ -2,6 +2,8 @@ import { voteAnecdote } from '../reducers/anecdoteReducer'
 import { useSelector, useDispatch } from 'react-redux'
 import  Filter  from './Filteraction'
 import Notification from './Notification'
+import { setNotification } from '../reducers/notificationReducer'
+
 
 
 const Anecdote = ({content, votes, handleClick}) => {
@@ -27,6 +29,9 @@ const AnecdoteList = () => {
     const vote = (id) => {
         console.log('vote', id)
         dispatch(voteAnecdote(id))
+        const votedAnecdote = anecdotes.find(a => a.id===id)
+        dispatch(setNotification("you voted: "+ votedAnecdote.content))
+
       }
 
     if (filter) {
