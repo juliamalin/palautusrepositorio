@@ -1,12 +1,16 @@
 import { useMutation, useQueryClient } from 'react-query'
 import { createAnecdote } from '../requests'
 
+import {useNotificationDispatch} from '../NotificationContext'
+
 const AnecdoteForm = () => {
+  const dispatch = useNotificationDispatch()
   const queryClient = useQueryClient()
 
   const newAnecdoteMutation = useMutation(createAnecdote, {
-    onSuccess: () => {
-      queryClient.invalidateQueries('anecdotes')
+    onSuccess: (newAnecdote) => {
+      const anecdotes = queryClient.getQueryData('anecdotes')
+      queryClient.setQueryData('anecdotes', anecdotes.concat(newAnecdote))
     }
   })
 
@@ -14,8 +18,28 @@ const AnecdoteForm = () => {
     event.preventDefault()
     const content = event.target.anecdote.value
     event.target.anecdote.value = ''
-    console.log('new anecdote')
-    newAnecdoteMutation.mutate({content, votes: 0})
+
+    try {
+      await newAnecdoteMutation.mutateAsync({content, votes: 0})
+      dispatch({
+        type: 'CREATE',
+        payload: {
+          message: `you created '${content}'`,
+          duration: 5,
+          dispatch: dispatch
+        }
+      })
+    } catch (error) {
+      console.log(error)
+      dispatch({
+        type: 'CREATE',
+        payload: {
+          message: `Error: ${error.response.data.error}`,
+          duration: 5,
+          dispatch: dispatch
+        }
+      })
+    }
 
 }
 
