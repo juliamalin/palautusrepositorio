@@ -1,0 +1,52 @@
+{
+  "notes": [
+    {
+      "id": 1,
+      "content": "custom hooks are awesome"
+    },
+    {
+      "id": 2,
+      "content": "best feature ever <3"
+    },
+    {
+      "content": "moikkamoi",
+      "id": 3
+    },
+    {
+      "content": "käy kaupassa",
+      "id": 4
+    }
+  ],
+  "persons": [
+    {
+      "id": 1,
+      "name": "Matti Luukkainen",
+      "number": "040-12344565"
+    },
+    {
+      "id": 2,
+      "name": "Tarja Halonen",
+      "number": "040-2223334"
+    },
+    {
+      "name": "julia m",
+      "number": "123456",
+      "id": 3
+    },
+    {
+      "name": "keke",
+      "number": "123",
+      "id": 4
+    },
+    {
+      "name": "emmi",
+      "number": "1234",
+      "id": 5
+    },
+    {
+      "name": "sohvi",
+      "number": "12222",
+      "id": 6
+    }
+  ]
+}
