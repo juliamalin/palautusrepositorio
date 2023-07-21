@@ -1,13 +1,13 @@
 const dummy = (blogs) => {
-    return 1
-  }
+  return 1;
+};
 
 const totalLikes = (array) => {
   const reducer = (sum, array) => {
-    return sum + array.likes
-  }
-  return array.reduce(reducer, 0)
-}
+    return sum + array.likes;
+  };
+  return array.reduce(reducer, 0);
+};
 
 const favouriteBlog = (array) => {
   let mostLikes = 0;
@@ -24,10 +24,8 @@ const favouriteBlog = (array) => {
   return mostLiked;
 };
 
-  
 module.exports = {
-    dummy, 
-    totalLikes,
-    favouriteBlog
-
-}
+  dummy,
+  totalLikes,
+  favouriteBlog,
+};

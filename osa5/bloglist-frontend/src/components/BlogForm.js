@@ -1,77 +1,88 @@
 import { useState } from 'react'
 import PropTypes from 'prop-types'
+import { createBlog } from '../reducers/blogReducer'
+import { showNotification } from '../reducers/notificationReducer'
+import { connect } from 'react-redux'
 
-const CreateBlogForm = ({ createBlog, user }) => {
+const CreateBlogForm = ({ user, createBlog, showNotification }) => {
   const [newBlogTitle, setNewBlogTitle] = useState('')
   const [newBlogAuthor, setNewBlogAuthor] = useState('')
   const [newBlogUrl, setNewBlogUrl] = useState('')
   const [newBlogLikes, setNewBlogLikes] = useState(0)
 
-
-  const addBlog = (event) => {
+  const addBlog = async (event) => {
     event.preventDefault()
-    createBlog({
+    const content = {
       title: newBlogTitle,
       author: newBlogAuthor,
       url: newBlogUrl,
       likes: newBlogLikes,
-      user: user
-    })
-
+      user: user,
+    }
     setNewBlogTitle('')
     setNewBlogAuthor('')
     setNewBlogUrl('')
+    createBlog(content)
+    showNotification(`you created '${content.title}'`, 5)
   }
 
-  return(
+  return (
     <div>
       <h2>Create a new blog</h2>
       <form onSubmit={addBlog}>
         <div>
-        Title:
+          Title:
           <input
             type="text"
             value={newBlogTitle}
             onChange={(event) => setNewBlogTitle(event.target.value)}
-            id='title-input'
+            id="title-input"
           />
         </div>
         <div>
-        Author:
+          Author:
           <input
             type="text"
             value={newBlogAuthor}
             onChange={(event) => setNewBlogAuthor(event.target.value)}
-            id='author-input'
+            id="author-input"
           />
         </div>
         <div>
-        URL:
+          URL:
           <input
             type="text"
             value={newBlogUrl}
             onChange={(event) => setNewBlogUrl(event.target.value)}
-            id='url-input'
+            id="url-input"
           />
         </div>
         <div>
-        Likes:
+          Likes:
           <input
             type="number"
             value={newBlogLikes}
             onChange={(event) => setNewBlogLikes(Number(event.target.value))}
-            id='likes-input'
+            id="likes-input"
           />
         </div>
-        <button id="create-button" type="submit">Create Blog</button>
+        <button id="create-button" type="submit">
+          Create Blog
+        </button>
       </form>
     </div>
   )
 }
 
 CreateBlogForm.propTypes = {
-  createBlog: PropTypes.func.isRequired,
-  user: PropTypes.object.isRequired
+  //createBlog: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
 }
 
-export default CreateBlogForm
+const mapDispatchToProps = {
+  createBlog,
+  showNotification,
+}
+
+const ConnectedBlogForm = connect(null, mapDispatchToProps)(CreateBlogForm)
+export default ConnectedBlogForm
