@@ -4,6 +4,7 @@ const Blog = require("../models/blog");
 const User = require("../models/user");
 const jwt = require("jsonwebtoken");
 const blog = require("../models/blog");
+const comment = require("../models/comments");
 
 blogsRouter.get("/", async (request, response) => {
   const blogs = await Blog.find({}).populate("user", { username: 1, name: 1 });
@@ -27,6 +28,7 @@ blogsRouter.post("/", async (request, response, next) => {
     return response.status(401).json({ error: "token invalid" });
   }
   const user = await User.findById(decodedToken.id);
+  console.log(user);
 
   const blog = new Blog({
     title: body.title,

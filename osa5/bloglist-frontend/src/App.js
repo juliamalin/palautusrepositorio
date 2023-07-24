@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import Blog from './components/Blog'
+import AllBlogsList from './components/Blog'
 import blogService from './services/blogs'
 import LoginForm from './components/LoginForm'
 import Togglable from './components/Toggable'
@@ -7,19 +7,50 @@ import CreateBlogForm from './components/BlogForm'
 import { useSelector, useDispatch } from 'react-redux'
 import Notification from './components/Notification'
 import { initializeBlogs } from './reducers/blogReducer'
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom'
+import UsersList from './components/UsersList'
+import { initializeUsers } from './reducers/userReducer'
+import BlogList from './components/BlogList'
+import BlogView from './components/BlogView'
+
+const Menu = () => {
+  const padding = {
+    paddingRight: 5,
+  }
+
+  return (
+    <div>
+      <Link href="#" style={padding} to="/">
+        blogs
+      </Link>
+      <Link href="#" style={padding} to="/users">
+        users
+      </Link>
+    </div>
+  )
+}
 
 const App = () => {
   const blogs = useSelector((state) => state.blogs)
   const [user, setUser] = useState(null)
+
   const dispatch = useDispatch()
 
   const blogFormRef = useRef()
   const loginFormRef = useRef()
 
-  const sortedBlogs = [...blogs].sort((a, b) => a.likes - b.likes)
+  //const sortedBlogs = [...blogs].sort((a, b) => a.likes - b.likes)
+
+  const padding = {
+    padding: 5,
+  }
 
   useEffect(() => {
     dispatch(initializeBlogs())
+  }, [dispatch])
+
+  useEffect(() => {
+    dispatch(initializeUsers())
   }, [dispatch])
 
   console.log(blogs)
@@ -50,36 +81,53 @@ const App = () => {
     <div>
       <h1>Blog app</h1>
       <Notification />
-      {!user && (
-        <Togglable buttonLabel="log in" ref={loginFormRef}>
-          <LoginForm setUser={setUser} />
-        </Togglable>
-      )}
-      {user && (
-        <div>
-          <p>{user.name} logged in</p>
-          <Togglable buttonLabel="create new blog" ref={blogFormRef}>
-            <CreateBlogForm user={user} />
-          </Togglable>
+      <Router>
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            backgroundColor: 'lightgray',
+          }}
+        >
+          <div>
+            <Link style={padding} to="/">
+              home
+            </Link>
+            <Link style={padding} to="/users">
+              users
+            </Link>
+            <Link style={padding} to="/blogs">
+              blogs
+            </Link>
+          </div>
+          {!user && (
+            <Togglable buttonLabel="log in" ref={loginFormRef}>
+              <LoginForm setUser={setUser} />
+            </Togglable>
+          )}
+          {user && <p>{user.name} logged in </p>}
+          <button id="logout-button" onClick={handleLogout}>
+            Logout
+          </button>
         </div>
-      )}
-
-      <h2>Bloglist</h2>
-      {user && (
-        <div>
-          {sortedBlogs.map((blog) => (
-            <Blog key={blog.id} blog={blog} user={user} />
-          ))}
-        </div>
-      )}
-      <button id="logout-button" onClick={handleLogout}>
-        Logout
-      </button>
+        <Routes>
+          <Route path="/users" element={<UsersList />} />
+          <Route path="/users/:id" element={<BlogList />} />
+          <Route path="/blogs/:id" element={<BlogView />} />
+          <Route path="/blogs" element={user && <AllBlogsList user={user} />} />
+          <Route path="/" element={user && <CreateBlogForm user={user} />} />
+        </Routes>
+      </Router>
     </div>
   )
 }
 
 export default App
+//      <Menu />
+
+/*<Routes>
+<Route path="/users" element={<User} />
+</Routes>
 
 //KORVATTU REDUXILLA
 

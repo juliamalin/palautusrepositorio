@@ -1,30 +1,12 @@
-import { useState } from 'react'
-import { likeBlog } from '../reducers/blogReducer'
 import { showNotification } from '../reducers/notificationReducer'
 import { deleteBlog } from '../reducers/blogReducer'
 import { connect } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
+import { Link } from 'react-router-dom'
 
-const Blog = ({ blog, user, likeBlog, deleteBlog, showNotification }) => {
-  const [showDetails, setShowDetails] = useState(false)
-
-  const toggleDetails = () => {
-    setShowDetails(!showDetails)
-  }
-
-  const updateLikes = (id) => {
-    try {
-      likeBlog(id)
-    } catch (error) {
-      showNotification('Blog was already removed from server', 5)
-    }
-  }
-
-  //korvattu reduxilla
-
-  /*const handleLike = () => {
-    blog.likes = blog.likes + 1
-    update(blog.id)
-  }*/
+const AllBlogsList = ({ user, deleteBlog, showNotification }) => {
+  const blogs = useSelector((state) => state.blogs)
+  const sortedBlogs = [...blogs].sort((a, b) => a.likes - b.likes)
 
   const deleteBlogItem = (id) => {
     try {
@@ -36,30 +18,17 @@ const Blog = ({ blog, user, likeBlog, deleteBlog, showNotification }) => {
 
   return (
     <div>
-      {blog.title}
-      <button id="view-button" onClick={toggleDetails}>
-        {showDetails ? 'Hide' : 'View'}
-      </button>
-      {blog.user.username === user.username && (
-        <button id="delete-button" onClick={() => deleteBlogItem(blog.id)}>
-          Delete
-        </button>
-      )}
-      {showDetails && (
-        <div>
-          <p>Author: {blog.author}</p>
-          <p>URL: {blog.url}</p>
-          <p>Likes: {blog.likes}</p>
-          <button
-            id="like-button"
-            onClick={() => updateLikes(blog.id)}
-            className="like-button"
-          >
-            Like
-          </button>
-          <p>User: {blog.user.username}</p>
+      <h2>All Blogs</h2>
+      {sortedBlogs.map((blog) => (
+        <div key={blog.id}>
+          <Link to={`/blogs/${blog.id}`}>{blog.title}</Link>
+          {blog.user.username === user.username && (
+            <button id="delete-button" onClick={() => deleteBlogItem(blog.id)}>
+              Delete
+            </button>
+          )}
         </div>
-      )}
+      ))}
     </div>
   )
 }
@@ -67,8 +36,45 @@ const Blog = ({ blog, user, likeBlog, deleteBlog, showNotification }) => {
 const mapDispatchToProps = {
   deleteBlog,
   showNotification,
-  likeBlog,
 }
 
-const ConnectedBlogs = connect(null, mapDispatchToProps)(Blog)
+const ConnectedBlogs = connect(null, mapDispatchToProps)(AllBlogsList)
 export default ConnectedBlogs
+
+//const [showDetails, setShowDetails] = useState(false)
+
+/*const toggleDetails = () => {
+    setShowDetails(!showDetails)
+  }*/
+
+//korvattu reduxilla
+
+/*const handleLike = () => {
+    blog.likes = blog.likes + 1
+    update(blog.id)
+  }*/
+
+/*{showDetails && (
+  <div>
+    <p>Author: {blog.author}</p>
+    <p>URL: {blog.url}</p>
+    <p>Likes: {blog.likes}</p>
+    <button
+      id="like-button"
+      onClick={() => updateLikes(blog.id)}
+      className="like-button"
+    >
+      Like
+    </button>
+    <p>User: {blog.user.username}</p>
+  </div>
+)}*/
+
+/*return sortedBlogs.map((blog) => (
+  <div>
+    {blog.title}
+    <button id="view-button" onClick={toggleDetails}>
+      {showDetails ? 'Hide' : 'View'}
+    </button>
+  </div>
+))*/
