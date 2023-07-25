@@ -1,11 +1,10 @@
-import { useSelector, useDispatch } from 'react-redux'
-import { useEffect } from 'react'
-import { initializeUsers } from '../reducers/userReducer'
+import { useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 
 const BlogList = () => {
   const { id } = useParams()
   const users = useSelector((state) => state.user)
+
   console.log(users)
   const currentUser = users.find((u) => u.id === id)
   console.log(currentUser)

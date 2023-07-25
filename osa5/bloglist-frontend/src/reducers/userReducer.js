@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit'
-import loginService from '../services/login'
 import userService from '../services/users'
 
 const userSlice = createSlice({
@@ -19,8 +18,13 @@ export const { setUser, appendUser } = userSlice.actions
 
 export const initializeUsers = () => {
   return async (dispatch) => {
-    const users = await userService.getAll()
-    dispatch(setUser(users))
+    try {
+      const users = await userService.getAll()
+      console.log(users)
+      dispatch(setUser(users))
+    } catch (error) {
+      console.error('Error fetching users:', error)
+    }
   }
 }
 

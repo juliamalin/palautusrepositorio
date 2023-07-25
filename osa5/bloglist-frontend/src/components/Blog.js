@@ -3,10 +3,17 @@ import { deleteBlog } from '../reducers/blogReducer'
 import { connect } from 'react-redux'
 import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
+import { useEffect } from 'react'
+import { initializeBlogs } from '../reducers/blogReducer'
 
 const AllBlogsList = ({ user, deleteBlog, showNotification }) => {
   const blogs = useSelector((state) => state.blogs)
   const sortedBlogs = [...blogs].sort((a, b) => a.likes - b.likes)
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(initializeBlogs())
+  }, [dispatch])
 
   const deleteBlogItem = (id) => {
     try {
@@ -15,6 +22,8 @@ const AllBlogsList = ({ user, deleteBlog, showNotification }) => {
       showNotification('Blog delete failed', 5)
     }
   }
+  console.log(user.username)
+  console.log(sortedBlogs)
 
   return (
     <div>

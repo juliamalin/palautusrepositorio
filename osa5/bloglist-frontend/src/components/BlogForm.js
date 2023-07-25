@@ -2,7 +2,6 @@ import { useState, useRef } from 'react'
 import PropTypes from 'prop-types'
 import { createBlog } from '../reducers/blogReducer'
 import { showNotification } from '../reducers/notificationReducer'
-import { initializeUsers } from '../reducers/userReducer'
 import { connect } from 'react-redux'
 import Togglable from './Toggable'
 
@@ -26,9 +25,14 @@ const CreateBlogForm = ({ user, createBlog, showNotification }) => {
     setNewBlogTitle('')
     setNewBlogAuthor('')
     setNewBlogUrl('')
-    createBlog(content)
-    initializeUsers()
+    try {
+      await createBlog(content)
+      showNotification(`you created '${content.title}'`, 5)
+    } catch (error) {
+      console.error('Error creating blog:', error)
+    }
     showNotification(`you created '${content.title}'`, 5)
+    blogFormRef.current.toggleVisibility()
   }
 
   return (
@@ -82,14 +86,12 @@ const CreateBlogForm = ({ user, createBlog, showNotification }) => {
 }
 
 CreateBlogForm.propTypes = {
-  //createBlog: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired,
 }
 
 const mapDispatchToProps = {
   createBlog,
   showNotification,
-  initializeUsers,
 }
 
 const ConnectedBlogForm = connect(null, mapDispatchToProps)(CreateBlogForm)

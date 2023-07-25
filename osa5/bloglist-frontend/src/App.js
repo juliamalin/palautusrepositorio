@@ -12,34 +12,15 @@ import UsersList from './components/UsersList'
 import { initializeUsers } from './reducers/userReducer'
 import BlogList from './components/BlogList'
 import BlogView from './components/BlogView'
-
-const Menu = () => {
-  const padding = {
-    paddingRight: 5,
-  }
-
-  return (
-    <div>
-      <Link href="#" style={padding} to="/">
-        blogs
-      </Link>
-      <Link href="#" style={padding} to="/users">
-        users
-      </Link>
-    </div>
-  )
-}
+import { useNavigate } from 'react-router-dom'
+import { Navbar, Nav } from 'react-bootstrap'
 
 const App = () => {
   const blogs = useSelector((state) => state.blogs)
   const [user, setUser] = useState(null)
-
   const dispatch = useDispatch()
-
-  const blogFormRef = useRef()
   const loginFormRef = useRef()
-
-  //const sortedBlogs = [...blogs].sort((a, b) => a.likes - b.likes)
+  const navigate = useNavigate()
 
   const padding = {
     padding: 5,
@@ -75,59 +56,61 @@ const App = () => {
   const handleLogout = () => {
     window.localStorage.removeItem('loggedBlogappUser')
     setUser(null)
+    navigate('/')
   }
 
   return (
-    <div>
+    <div className="container">
       <h1>Blog app</h1>
       <Notification />
-      <Router>
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            backgroundColor: 'lightgray',
-          }}
-        >
-          <div>
-            <Link style={padding} to="/">
-              home
-            </Link>
-            <Link style={padding} to="/users">
-              users
-            </Link>
-            <Link style={padding} to="/blogs">
-              blogs
-            </Link>
-          </div>
-          {!user && (
-            <Togglable buttonLabel="log in" ref={loginFormRef}>
-              <LoginForm setUser={setUser} />
-            </Togglable>
-          )}
-          {user && <p>{user.name} logged in </p>}
-          <button id="logout-button" onClick={handleLogout}>
-            Logout
-          </button>
-        </div>
-        <Routes>
-          <Route path="/users" element={<UsersList />} />
-          <Route path="/users/:id" element={<BlogList />} />
-          <Route path="/blogs/:id" element={<BlogView />} />
-          <Route path="/blogs" element={user && <AllBlogsList user={user} />} />
-          <Route path="/" element={user && <CreateBlogForm user={user} />} />
-        </Routes>
-      </Router>
+      <Navbar collapseOnSelect expand="lg" bg="light" variant="light">
+        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+        <Navbar.Collapse id="responsive-navbar-nav">
+          <Nav className="mr-auto">
+            <Nav.Link href="#" as="span">
+              <Link style={padding} to="/">
+                home
+              </Link>
+            </Nav.Link>
+            <Nav.Link href="#" as="span">
+              <Link style={padding} to="/users">
+                users
+              </Link>
+            </Nav.Link>
+            <Nav.Link href="#" as="span">
+              <Link style={padding} to="/blogs">
+                blogs
+              </Link>
+            </Nav.Link>
+            <div>
+              {user ? (
+                <div>
+                  <p>{user.name} logged in </p>
+                  <button id="logout-button" onClick={handleLogout}>
+                    Logout
+                  </button>
+                </div>
+              ) : (
+                <Togglable buttonLabel="log in" ref={loginFormRef}>
+                  <LoginForm setUser={setUser} />
+                </Togglable>
+              )}
+            </div>
+          </Nav>
+        </Navbar.Collapse>
+      </Navbar>
+      <Routes>
+        <Route path="/users" element={<UsersList />} />
+        <Route path="/users/:id" element={<BlogList />} />
+        <Route path="/blogs/:id" element={<BlogView />} />
+        <Route path="/blogs" element={user && <AllBlogsList user={user} />} />
+        <Route path="/" element={user && <CreateBlogForm user={user} />} />
+      </Routes>
     </div>
   )
 }
 
 export default App
-//      <Menu />
-
-/*<Routes>
-<Route path="/users" element={<User} />
-</Routes>
 
 //KORVATTU REDUXILLA
 
@@ -192,4 +175,8 @@ export default App
       .catch((error) => {
         dispatch(showNotification('Failed to delete blog', 5))
       })
+
+
+
+          
   }*/

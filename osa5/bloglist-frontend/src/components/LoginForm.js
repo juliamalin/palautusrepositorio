@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types'
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import blogService from '../services/blogs'
 import { useDispatch } from 'react-redux'
-import { createUser } from '../reducers/userReducer'
 import { showNotification } from '../reducers/notificationReducer'
 import loginService from '../services/login'
+import { Form, Button } from 'react-bootstrap'
 
 const LoginForm = ({ setUser }) => {
   const [username, setUsername] = useState('')
@@ -35,31 +35,29 @@ const LoginForm = ({ setUser }) => {
   return (
     <div>
       <h2>Login</h2>
-      <form onSubmit={handleLogin}>
-        <div>
-          username
-          <input
+      <Form onSubmit={handleLogin}>
+        <Form.Group>
+          <Form.Label>username</Form.Label>
+          <Form.Control
             type="text"
             value={username}
             name="Username"
             onChange={(event) => setUsername(event.target.value)}
             id="username"
           />
-        </div>
-        <div>
-          password
-          <input
+          <Form.Label>password</Form.Label>
+          <Form.Control
             type="password"
             value={password}
             name="Password"
             onChange={(event) => setPassword(event.target.value)}
             id="password"
           />
-        </div>
-        <button id="login-button" type="submit">
-          login
-        </button>
-      </form>
+          <Button variant="primary" type="submit">
+            login
+          </Button>
+        </Form.Group>
+      </Form>
     </div>
   )
 }
