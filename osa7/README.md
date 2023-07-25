@@ -1,1 +1,1 @@
-Tehtävät 7.9-7.21 tehty osan 4 ja osan 5 "bloglist-frontend" projekteihin
+Tehtävät 7.9-7.21 tehty osan 4 projektiin sekä osan 5 "bloglist-frontend" projektiin
