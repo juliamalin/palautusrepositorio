@@ -128,11 +128,12 @@ const typeDefs = `
     }
     type User {
       username: String!
-      favouriteGenre: String!
+      favouriteGenre: String
       id: ID!
     }
     type Token {
       value: String!
+      username: String!
     }
     
     type Mutation {
@@ -162,6 +163,7 @@ const typeDefs = `
         allBooks(author: String, genre: String): [Book!]!
         allAuthors: [Author!]!
         me: User
+        allUsers: [User!]!
     }
 `;
 
@@ -191,10 +193,13 @@ const resolvers = {
         //return books.filter((book) => book.genres.includes(genre));
         return Book.find({ genres: { $in: [genre] } }).populate("author");
       }
-      return Book.find({});
+      return Book.find({}).populate("author");
     },
     allAuthors: async (root, args) => {
       return Author.find({});
+    },
+    allUsers: async (root, args) => {
+      return User.find({});
     },
     me: (root, args, context) => {
       return context.currentUser;
@@ -227,7 +232,6 @@ const resolvers = {
           }
           try {
             await newAuthor.save();
-            await currentUser.save();
           } catch (error) {
             throw new GraphQLError("Saving author failed", {
               extensions: {
@@ -250,6 +254,7 @@ const resolvers = {
               },
             });
           }
+          // return book.populate("Author");
         } else {
           existingAuthor.bookCount++;
           await existingAuthor.save();
@@ -326,7 +331,10 @@ const resolvers = {
         username: user.username,
         id: user._id,
       };
-      return { value: jwt.sign(userForToken, process.env.JWT_SECRET) };
+      return {
+        value: jwt.sign(userForToken, process.env.JWT_SECRET),
+        username: user.username,
+      };
     },
   },
 };
