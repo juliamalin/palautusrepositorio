@@ -4,7 +4,6 @@ import BornForm from "./bornForm";
 
 const Authors = ({ show, token }) => {
   const result = useQuery(ALL_AUTHORS);
-  console.log(result);
   if (!show) {
     return null;
   }

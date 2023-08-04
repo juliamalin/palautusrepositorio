@@ -17,6 +17,12 @@ const schema = new mongoose.Schema({
   },
 });
 
+schema.virtual("bookList", {
+  ref: "Book",
+  localField: "_id",
+  foreignField: "author",
+});
+
 schema.plugin(uniqueValidator);
 
 module.exports = mongoose.model("Author", schema);

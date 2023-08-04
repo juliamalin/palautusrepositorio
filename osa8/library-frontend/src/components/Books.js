@@ -8,13 +8,14 @@ const Books = (props) => {
 
   const result = useQuery(ALL_BOOKS);
 
-  const result2 = useQuery(GENRE_BOOKS, {
+  const resultGenre = useQuery(GENRE_BOOKS, {
     variables: { genre: showAll },
   });
 
+  //hakee kirjat uudelleen kun genre muuttuu
   useEffect(() => {
     if (showAll) {
-      result2.refetch();
+      resultGenre.refetch();
     }
   }, [showAll]);
 
@@ -22,20 +23,19 @@ const Books = (props) => {
     return null;
   }
 
-  if (result2.loading || result.loading) {
+  if (resultGenre.loading || result.loading) {
     return <div>Loading...</div>;
   }
 
-  const books = result2.data.allBooks;
-  const booksButtons = result.data.allBooks;
+  const booksByGenre = resultGenre.data.allBooks;
+  const allBooks = result.data.allBooks;
 
-  const uniqueGenres = Array.from(
-    new Set(booksButtons.flatMap((b) => b.genres))
-  );
+  const uniqueGenres = Array.from(new Set(allBooks.flatMap((b) => b.genres)));
 
+  // filteröi genren mukaan tai jos ei ole genreä niin näyttää kaikki
   const booksToShow = showAll
-    ? books.filter((book) => book.genres.includes(showAll))
-    : books;
+    ? booksByGenre.filter((book) => book.genres.includes(showAll))
+    : allBooks;
 
   return (
     <div>
