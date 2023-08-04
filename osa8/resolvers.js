@@ -45,11 +45,14 @@ const resolvers = {
     },
   },
   Author: {
-    bookCount: async ({ id }) => {
-      const b = await Book.countDocuments({ author: id }, console.log(id));
-      return b;
+    bookCount: (author) => {
+      console.log(author);
+      const books = author.bookList;
+      const bookCount = books.length;
+      return bookCount;
     },
   },
+
   Mutation: {
     addBook: async (root, args, context) => {
       console.log(args);
