@@ -46,13 +46,11 @@ const resolvers = {
   },
   Author: {
     bookCount: (author) => {
-      console.log(author);
       const books = author.bookList;
       const bookCount = books.length;
       return bookCount;
     },
   },
-
   Mutation: {
     addBook: async (root, args, context) => {
       console.log(args);
