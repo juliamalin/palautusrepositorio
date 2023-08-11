@@ -48,6 +48,8 @@ const patientList: Patient[] = patientData.map((originalPatient) => {
     const newPatient = toNewPatientEntry(originalPatient);
     return { ...newPatient, id: originalPatient.id };
   });
+
+  console.log(patientList)
   
 
 export default patientList;

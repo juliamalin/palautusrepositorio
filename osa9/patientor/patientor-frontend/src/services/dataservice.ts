@@ -4,7 +4,7 @@ import { SelectedPatientValues } from '../types'
 import patientData from '../data/patients'
 import { v1 as uuid } from 'uuid'
 
-
+const patients: Patient[] = patientData
 
 const getDiagnoses = (): Diagnosis[] => {
     return dgData
@@ -25,7 +25,7 @@ const addPatient = (patient: NewPatient): Patient => {
         id: uuid(),
         ...patient
     }
-    patientData.push(newPatient)
+    patients.push(newPatient)
     return newPatient
 
 }
