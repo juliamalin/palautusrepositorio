@@ -35,9 +35,11 @@ const addDiary = ( entry: NewDiaryEntry ): DiaryEntry => {
   return newDiaryEntry;
 };
 
-export default {
+const diaryService = {
   getEntries,
   addDiary,
   getNonSensitiveEntries,
   findById
 };
+
+export default diaryService;

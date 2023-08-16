@@ -1,12 +1,13 @@
 import { useState, SyntheticEvent } from "react";
-import {  TextField, Button, SelectChangeEvent, InputLabel, Select, MenuItem} from '@mui/material';
+import {  TextField, Button, Radio, RadioGroup, FormControlLabel} from '@mui/material';
 import { EntryFormValues, Weather, Visibility } from './typesFront';
 
 interface Props {
     onSubmit: (values: EntryFormValues) => void
+    onError: (error: string) => void
 }
 
-interface WeatherOption{
+/*interface WeatherOption{
     value: Weather;
     label: string;
   }
@@ -22,18 +23,18 @@ interface VisibilityOption{
 
 const visibilityOptions: VisibilityOption[] = Object.values(Visibility).map(v => ({
     value: v, label: v.toString()
-  }));
+  }));*/
 
 
 
-const AddEntryForm = ({ onSubmit }: Props) => {
+const AddEntryForm = ({ onSubmit, onError }: Props) => {
     const [date, setDate] = useState('')
     const [visibility, setVisibility] = useState(Visibility.Ok)
     const [weather, setWeather] = useState(Weather.Cloudy)
     const [comment, setComment] = useState('')
 
 
-    const onWeatherChange = (event: SelectChangeEvent<string>) => {
+   /* const onWeatherChange = (event: SelectChangeEvent<string>) => {
         event.preventDefault();
         if ( typeof event.target.value === "string") {
           const value = event.target.value;
@@ -53,7 +54,7 @@ const AddEntryForm = ({ onSubmit }: Props) => {
             setVisibility(visibility);
           }
         }
-      };
+      };*/
 
     const addEntry = (event: SyntheticEvent) => {
         event.preventDefault();
@@ -72,42 +73,72 @@ const AddEntryForm = ({ onSubmit }: Props) => {
             <TextField
               label="Date"
               placeholder="YYYY-MM-DD"
+              type="date"
               fullWidth 
               value={date}
               onChange={({ target }) => setDate(target.value)}
             />
-            <InputLabel style={{ marginTop: 20 }}>Visibility</InputLabel>
-            <Select
-              label="Visibility"
-              fullWidth
-              value={visibility}
-              onChange={onVisibilityChange}
+            <p>Visibility:</p>
+               <RadioGroup
+          aria-label="Visibility"
+          value={visibility}
+          onChange={(event) => setVisibility(event.target.value as Visibility)}
+          row
             >
-              {visibilityOptions.map(option =>
-                <MenuItem
-                key={option.label}
-                value={option.value}
-                >
-                {option.label
-                }</MenuItem>
-                )}
-            </Select>
-            <InputLabel style={{ marginTop: 20 }}>Weather</InputLabel>
-            <Select
-              label="Weather"
-              fullWidth
+              <FormControlLabel
+                value={Visibility.Ok}
+                control={<Radio />}
+                label="Ok"
+              />
+              <FormControlLabel
+                value={Visibility.Poor}
+                control={<Radio />}
+                label="Poor"
+              />
+              <FormControlLabel
+                value={Visibility.Great}
+                control={<Radio />}
+                label="Great"
+              />
+              <FormControlLabel
+                value={Visibility.Good}
+                control={<Radio />}
+                label="Good"
+              />
+        </RadioGroup>
+        <p>Weather:</p>
+            <RadioGroup
+              aria-label="Weather"
               value={weather}
-              onChange={onWeatherChange}
+              onChange={(event) => setWeather(event.target.value as Weather)}
+              row
             >
-            {weatherOptions.map(option =>
-                <MenuItem
-                key={option.label}
-                value={option.value}>
-                {option.label}
-                </MenuItem>
-            )}
-            </Select>
-
+              <FormControlLabel
+                value={Weather.Cloudy}
+                control={<Radio />}
+                label="Cloudy"
+              />
+              <FormControlLabel
+                value={Weather.Rainy}
+                control={<Radio />}
+                label="Rainy"
+              />
+              <FormControlLabel
+                value={Weather.Sunny}
+                control={<Radio />}
+                label="Sunny"
+              />
+              <FormControlLabel
+                value={Weather.Stormy}
+                control={<Radio />}
+                label="Stormy"
+              />
+              <FormControlLabel
+                value={Weather.Windy}
+                control={<Radio />}
+                label="Windy"
+              />
+            </RadioGroup>
             <TextField
               label="Comment"
               fullWidth
