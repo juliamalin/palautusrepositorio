@@ -9,6 +9,16 @@ router.get('/', (_req, res) => {
     res.send(dataservice.getPatients())
 })
 
+router.get('/:id', (req, res) => {
+    const id = req.params.id;
+    const patient = dataservice.findById(id)
+    if(patient) {
+        res.json(patient)
+    } else {
+        res.status(404).json({error: 'Patient not found'})
+    }
+})
+
 router.post('/',(req, res) => {
     try {
         const newPatientEntry = toNewPatientEntry(req.body)

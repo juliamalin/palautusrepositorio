@@ -11,13 +11,18 @@ const getDiagnoses = (): Diagnosis[] => {
 }
 
 const getPatients = (): SelectedPatientValues[] => {
-    return patientData.map(({id, name, dateOfBirth, gender, occupation})=> ({
+    return patientData.map(({id, name, dateOfBirth, gender, occupation, entries})=> ({
         id,
         name,
         dateOfBirth,
         gender,
-        occupation
+        occupation, 
+        entries
     }))
+}
+
+const findById = (id: string): Patient | undefined => {
+    return patients.find(patient => patient.id===id)
 }
 
 const addPatient = (patient: NewPatient): Patient => {
@@ -27,11 +32,11 @@ const addPatient = (patient: NewPatient): Patient => {
     }
     patients.push(newPatient)
     return newPatient
-
 }
 
 export default {
     getDiagnoses,
     getPatients,
+    findById,
     addPatient
 }
