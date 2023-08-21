@@ -1,6 +1,6 @@
 import express from 'express';
-import dgRouter from './routes/dgrouter';
-import patientRouter from './routes/patientrouter';
+import dgRouter from './dgrouter';
+import patientRouter from './patientrouter';
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 import cors from 'cors';
