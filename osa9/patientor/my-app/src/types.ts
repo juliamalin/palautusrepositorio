@@ -28,7 +28,7 @@ export interface Patient {
 
 }
 
-interface BaseEntry {
+export interface BaseEntry {
   id: string,
   date: string,
   description: string,
@@ -62,6 +62,10 @@ export type Entry =
   | HospitalEntry
   | OccupationalHealthcareEntry
   | HealthCheckEntry;
+
+type UnionOmit<T, K extends string | number | symbol> = T extends unknown ? Omit<T, K> : never;
+
+export type EntryWithoutId = UnionOmit<BaseEntry, "id">;
 
 
 export type SelectedPatientValues = Omit<Patient, "ssn">;

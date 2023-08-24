@@ -12,6 +12,7 @@ const getAll = async () => {
 };
 
 const create = async (object: PatientFormValues) => {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const { data } = await axios.post<Patient>(
     `${apiBaseUrl}/patients`,
     object
