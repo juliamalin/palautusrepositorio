@@ -72,6 +72,8 @@ export type EntryWithoutIdcopy = UnionOmit<BaseEntry, "id" | "type">;
 
 export type HospitalEntryWithoutId = UnionOmit<HospitalEntry, "id" | "type">;
 
+export type OccupationalEntryWithoutId = UnionOmit<OccupationalHealthcareEntry, "id" | "type">;
+
 export type SelectedPatientValues = Omit<Patient, "ssn">;
 
 export type PatientFormValues = Omit<Patient, "id" | "entries">;

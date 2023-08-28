@@ -37,7 +37,7 @@ router.post ("/:id/entries", async (req, res) => {
     try {
         const {id} = req.params;
         const entryData = toNewEntry(req.body);
-        console.log(entryData);
+       // console.log(entryData);
         const patientToUpdate = dataservice.findById(id);
         if (!patientToUpdate) {
             res.status(404).json({ error: 'Patient not found' });
