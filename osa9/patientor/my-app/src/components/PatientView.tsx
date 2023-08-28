@@ -11,6 +11,7 @@ import axios from "axios";
 import { apiBaseUrl } from "../constants";
 import Alert from '@mui/material/Alert';
 import AddOccupationalEntry from "./AddOccupationalEntry";
+import AddHealthCheckEntry from "./AddHealthCheck";
 
 type dgProps = {
     diagnoses: Diagnosis[]
@@ -167,6 +168,11 @@ const PatientView = ({diagnoses}: dgProps) => {
             <AddOccupationalEntry
               open={isAddOccupationalDialogOpen}
               onClose={closeAddOccupationalDialog}
+              onAddEntry={handleAddEntry}
+              />
+            <AddHealthCheckEntry
+              open={isAddEntryDialogOpen}
+              onClose={closeAddEntryDialog}
               onAddEntry={handleAddEntry}
               />
         </div>
