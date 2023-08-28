@@ -138,15 +138,16 @@ const parseDischarge = (object: unknown): Discharge  => {
     throw new Error('Incorrect data for discharge: some fields are missing');
 };
 
-const parseDiagnosisCodes = (object: unknown): Array<Diagnosis['code']> =>  {
-    if (!object || typeof object !== 'object' || !('diagnosisCodes' in object)) {
-      // we will just trust the data to be in correct form
+const parseDiagnosisCodes = (object: unknown): Array<Diagnosis['code']> => {
+    if (!Array.isArray(object)) {
+      // The input is not an array, return an empty array or handle it as needed.
       return [] as Array<Diagnosis['code']>;
     }
   
-    return object.diagnosisCodes as Array<Diagnosis['code']>;
+    // Assuming the input is an array of diagnosis codes.
+    return object as Array<Diagnosis['code']>;
   };
-
+  
 
 export function toNewPatientEntry (object:unknown) : NewPatient {
     if(! object || typeof object !== 'object') {
@@ -199,6 +200,7 @@ export function toNewEntry (object: unknown) : EntryWithoutId {
         };
 
         if ('diagnosisCodes' in object) {
+            console.log(object.diagnosisCodes);
             newEntry.diagnosisCodes = parseDiagnosisCodes(object.diagnosisCodes);
         }
 

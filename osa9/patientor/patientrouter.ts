@@ -42,7 +42,7 @@ router.post ("/:id/entries", async (req, res) => {
         if (!patientToUpdate) {
             res.status(404).json({ error: 'Patient not found' });
             return;
-          }
+        }
         const addedEntry = dataservice.addEntry(entryData, patientToUpdate);
         res.json(addedEntry);
     } catch (error) {

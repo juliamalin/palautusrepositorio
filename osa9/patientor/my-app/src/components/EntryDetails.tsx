@@ -18,7 +18,7 @@ const Hospital: React.FC<{entry: HospitalEntry, diagnosis: Record<string, Diagno
             <div>
                 {entry.diagnosisCodes.map ((dg, index) => (
                     <li key={index} style={{marginRight: '0.5em'}}>
-                      {dg} {diagnosis[dg].name}
+                      {dg}
                     </li>
                 ))}
             </div>
@@ -40,7 +40,7 @@ const OccupationalHealthcare: React.FC<{entry: OccupationalHealthcareEntry, diag
             <div>
                 {entry.diagnosisCodes.map ((dg, index) => (
                     <li key={index} style={{marginRight: '0.5em'}}>
-                      {dg} {diagnosis[dg].name}
+                      {dg}
                     </li>
                 ))}
             </div>
@@ -63,7 +63,7 @@ const HealthCheck: React.FC<{entry: HealthCheckEntry, diagnosis: Record<string, 
             <div>
                 {entry.diagnosisCodes.map ((dg, index) => (
                     <li key={index} style={{marginRight: '0.5em'}}>
-                      {dg} {diagnosis[dg].name}
+                      {dg}
                     </li>
                 ))}
             </div>
@@ -87,7 +87,6 @@ function assertNever(value: never): never {
 
   
 const EntryDetails: React.FC<{ entry: Entry, diagnosis: Record<string, Diagnosis> }> = ({entry, diagnosis}) => {
-    console.log(entry)
     switch (entry.type) {
         case "Hospital":
             return <Hospital entry={entry} diagnosis={diagnosis}/>
