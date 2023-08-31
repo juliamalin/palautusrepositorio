@@ -113,6 +113,7 @@ const PatientView = ({diagnoses}: dgProps) => {
       }, [id, shouldRefetchPatient]);
 
       const diagnosisLookup: Record<string, Diagnosis> = {}
+      console.log(diagnosisLookup)
 
       diagnoses.forEach(diagnosis => {
         diagnosisLookup[diagnosis.code] = diagnosis
@@ -164,16 +165,19 @@ const PatientView = ({diagnoses}: dgProps) => {
               open={isAddHospitalDialogOpen}
               onClose={closeAddHospitalDialog}
               onAddEntry={handleAddEntry}
+              diagnosis = {diagnosisLookup}
               />
             <AddOccupationalEntry
               open={isAddOccupationalDialogOpen}
               onClose={closeAddOccupationalDialog}
               onAddEntry={handleAddEntry}
+              diagnosis = {diagnosisLookup}
               />
             <AddHealthCheckEntry
               open={isAddEntryDialogOpen}
               onClose={closeAddEntryDialog}
               onAddEntry={handleAddEntry}
+              diagnosis = {diagnosisLookup}
               />
         </div>
         </div>

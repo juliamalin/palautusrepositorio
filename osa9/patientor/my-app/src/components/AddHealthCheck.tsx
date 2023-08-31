@@ -5,15 +5,17 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import {HealthCheckEntryWithoutId, HealthCheckRating } from "../types";
+import {Diagnosis, HealthCheckEntryWithoutId, HealthCheckRating } from "../types";
+import { MenuItem, Select } from "@mui/material";
 
 interface Props {
   open: boolean;
   onClose: () => void,
-  onAddEntry: (formData: HealthCheckEntryWithoutId) => Promise<void>
+  onAddEntry: (formData: HealthCheckEntryWithoutId) => Promise<void>,
+  diagnosis: Record<string, Diagnosis>
 }
 
-const AddHealthCheckEntry: React.FC<Props> = ({open, onClose, onAddEntry}: Props) => {
+const AddHealthCheckEntry: React.FC<Props> = ({open, onClose, onAddEntry, diagnosis}: Props) => {
     
     const initialFormData: HealthCheckEntryWithoutId = {
         date: "",
@@ -43,6 +45,16 @@ const AddHealthCheckEntry: React.FC<Props> = ({open, onClose, onAddEntry}: Props
         }
     }
 
+    const handleSelectChange = (event: { target: { value: any; }; }) => {
+        // Handle changes in select fields here
+        const selectedValues = event.target.value;
+        setFormData({
+          ...formData,
+          diagnosisCodes: [...(formData.diagnosisCodes || []), selectedValues], // Add the new value to the array
+        });
+        event.target.value=""
+    };
+
     const handleHcInputChange = (event: React.ChangeEvent<HTMLInputElement>
         ): void => {
         const { name, value } = event.target;
@@ -60,6 +72,11 @@ const AddHealthCheckEntry: React.FC<Props> = ({open, onClose, onAddEntry}: Props
         onClose()
 
     }
+    
+    const options = Object.keys(diagnosis).map((code) => ({
+        value: code,
+        label: `${diagnosis[code].code} - ${diagnosis[code].name}`,
+      }));
 
     return (
         <Dialog open={open} onClose={onClose} aria-labelledby="form-dialog-title">
@@ -71,7 +88,7 @@ const AddHealthCheckEntry: React.FC<Props> = ({open, onClose, onAddEntry}: Props
                 <div>
                     <label>Date:</label>
                     <input
-                        type="text"
+                        type="date"
                         name="date"
                         value={formData.date}
                         onChange={handleInputChange}
@@ -88,12 +105,26 @@ const AddHealthCheckEntry: React.FC<Props> = ({open, onClose, onAddEntry}: Props
                     </div>
                     <div>
                     <label>Diagnosis codes:</label>
-                    <input
-                        type="text"
-                        name="diagnosisCodes"
-                        value={(formData.diagnosisCodes || []).join(', ')} // Use non-null assertion
-                        onChange={handleInputChange}
-                    />
+                        <Select
+                        label ="select an option"
+                        value={formData.diagnosisCodes?.[0] || ""}
+                        onChange={handleSelectChange}
+                        >
+                        {options.map ((option) => (
+                             <MenuItem key={option.value} value={option.value}>
+                             {option.label}
+                           </MenuItem>
+
+                        ))}
+                        </Select>
+                    </div>
+                    <div>
+                        <p>Selected Diagnoses:</p>
+                        <ul>
+                        {formData.diagnosisCodes && formData.diagnosisCodes.map((diagnosis, index) => (
+                            <li key={index}>{diagnosis}</li>
+                        ))}
+                        </ul>
                     </div>
                     <div>
                     <label>Specialist:</label>
