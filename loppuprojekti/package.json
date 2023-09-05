@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "ts-node-dev index.ts",
     "lint": "eslint --ext .ts .",
-    "tsc": "tsc"
+    "tsc": "tsc",
+    "start": "node build/index.js"
   },
   "author": "jmalin",
   "license": "ISC",
