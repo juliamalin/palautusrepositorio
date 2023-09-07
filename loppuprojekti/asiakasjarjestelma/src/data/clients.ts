@@ -1,4 +1,4 @@
-import { AssessmentClient, TherapyClient, Client, Level, Duration } from "../types"
+import { Client, Level, Duration } from "../types"
 
 //type Client = AssessmentClient | TherapyClient;
 
